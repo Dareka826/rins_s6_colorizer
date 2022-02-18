@@ -157,10 +157,14 @@ int main() {
                 if(state.is_svc == TRUE) {
                     printf("service");
 
-                    if(state.svc_action == SVC_STARTED || state.svc_action == SVC_STARTING)
-                        printf("%s [ %s%s%s ]", state.svc_name, colors[COLOR_GREEN], svc_states[state.svc_action], colors[COLOR_NORMAL]);
-                    else if(state.svc_action == SVC_STOPPED || state.svc_action == SVC_STOPPING)
-                        printf("%s [ %s%s%s ]", state.svc_name, colors[COLOR_RED], svc_states[state.svc_action], colors[COLOR_NORMAL]);
+                    if(state.svc_action == SVC_STARTING)
+                        printf("%s %s%s%s...", state.svc_name, colors[COLOR_GREEN], svc_states[state.svc_action], colors[COLOR_NORMAL]);
+                    else if(state.svc_action == SVC_STARTED)
+                        printf("%s [  %s%s%s  ]", state.svc_name, colors[COLOR_GREEN], svc_states[state.svc_action], colors[COLOR_NORMAL]);
+                    else if(state.svc_action == SVC_STOPPING)
+                        printf("%s %s%s%s...", state.svc_name, colors[COLOR_RED], svc_states[state.svc_action], colors[COLOR_NORMAL]);
+                    else if(state.svc_action == SVC_STOPPED)
+                        printf("%s [  %s%s%s  ]", state.svc_name, colors[COLOR_RED], svc_states[state.svc_action], colors[COLOR_NORMAL]);
                     else fully_parsed = FALSE;
 
                 } else fully_parsed = FALSE;
