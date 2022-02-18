@@ -1,5 +1,4 @@
 .redo
-test_stdin.txt
 *.d
 *.o
 rins-s6-colorizer
