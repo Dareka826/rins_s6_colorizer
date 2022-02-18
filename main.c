@@ -27,6 +27,13 @@ enum {
     SVC_STOPPED
 };
 
+// Signals
+enum {
+    SIG_EMPTY,
+    SIG_SIGTERM,
+    SIG_SIGKILL
+};
+
 // strings for s6-rc state change types
 const char * const svc_states[] = {
     "???",
@@ -43,6 +50,9 @@ struct {
     uint8_t is_svc;
     char *svc_name;
     uint8_t svc_action;
+
+    uint8_t is_s6_linux_init_shutdownd;
+    uint8_t s6_linux_init_shutdownd_final_signal;
 } state;
 
 void reset_state() {
@@ -52,6 +62,9 @@ void reset_state() {
     if(state.svc_name != NULL) free(state.svc_name);
     state.svc_name = NULL;
     state.svc_action = SVC_NONE;
+
+    state.is_s6_linux_init_shutdownd = FALSE;
+    state.s6_linux_init_shutdownd_final_signal = SIG_EMPTY;
 }
 
 
@@ -80,8 +93,9 @@ int main() {
             if(token_idx == 0) { 
                 if(strcmp("s6-rc", token) == 0)
                     state.is_s6rc = TRUE;
-                else
-                    break;
+                else if(strcmp("s6-linux-init-shutdownd", token) == 0)
+                    state.is_s6_linux_init_shutdownd = TRUE;
+                else break;
 
             } else if(state.is_s6rc == TRUE) {
 
@@ -102,16 +116,29 @@ int main() {
                 } else if(token_idx == 4) {
                     if(strcmp("stopping\n", token) == 0)
                         state.svc_action = SVC_STOPPING;
-                    if(strcmp("starting\n", token) == 0)
+                    else if(strcmp("starting\n", token) == 0)
                         state.svc_action = SVC_STARTING;
 
                 } else if(token_idx == 5) {
                     if(strcmp("stopped\n", token) == 0)
                         state.svc_action = SVC_STOPPED;
-                    if(strcmp("started\n", token) == 0)
+                    else if(strcmp("started\n", token) == 0)
                         state.svc_action = SVC_STARTED;
                 }
-            } // endif(is_s6rc == TRUE)
+            } else if(state.is_s6_linux_init_shutdownd == TRUE) {
+                if(token_idx == 1) {
+                    if(strcmp("info", token) == 0)
+                        state.msg_type = MSG_INFO;
+
+                } else if(token_idx == 6) {
+                    if(state.msg_type == MSG_INFO) {
+                        if(strcmp("TERM", token) == 0)
+                            state.s6_linux_init_shutdownd_final_signal = SIG_SIGTERM;
+                        else if(strcmp("KILL", token) == 0)
+                            state.s6_linux_init_shutdownd_final_signal = SIG_SIGKILL;
+                    }
+                }
+            }
 
             token_idx++;
         } while((token = strtok(NULL, " :")));
@@ -141,9 +168,26 @@ int main() {
             } else fully_parsed = FALSE;
 
             putchar('\n');
+
+        } else if(state.is_s6_linux_init_shutdownd == TRUE) {
+            fully_parsed = TRUE;
+            printf("%s%ss6-linux-init-shutdownd%s: ", colors[COLOR_BOLD], colors[COLOR_YELLOW], colors[COLOR_NORMAL]);
+
+            if(state.msg_type == MSG_INFO) {
+                printf("info: ");
+
+                if(state.s6_linux_init_shutdownd_final_signal == SIG_SIGTERM)
+                    printf("sending all processes the %sTERM%s signal...", colors[COLOR_YELLOW], colors[COLOR_NORMAL]);
+                else if(state.s6_linux_init_shutdownd_final_signal == SIG_SIGKILL)
+                    printf("sending all processes the %s%sKILL%s signal...", colors[COLOR_BOLD], colors[COLOR_RED], colors[COLOR_NORMAL]);
+                else fully_parsed = FALSE;
+
+            } else fully_parsed = FALSE;
+
+            putchar('\n');
         }
 
-        if(fully_parsed == FALSE || state.is_s6rc == FALSE)
+        if(fully_parsed == FALSE || (state.is_s6rc == FALSE && state.is_s6_linux_init_shutdownd == FALSE))
             printf("%s", ptr_copy);
 
         // Flush the stream with every new line for realtime updates
