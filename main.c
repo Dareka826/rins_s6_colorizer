@@ -146,6 +146,9 @@ int main() {
         if(fully_parsed == FALSE || state.is_s6rc == FALSE)
             printf("%s", ptr_copy);
 
+        // Flush the stream with every new line for realtime updates
+        fflush(stdout);
+
         // Destroy strings
         free(ptr_copy); ptr_copy = NULL;
         free(ptr); ptr = NULL;
