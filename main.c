@@ -127,7 +127,7 @@ int main() {
                 printf("info: ");
 
                 if(state.is_svc == TRUE) {
-                    printf("service");
+                    printf("service ");
 
                     if(state.svc_action == SVC_STARTING)
                         printf("%s %s%s%s...", state.svc_name, colors[COLOR_GREEN], svc_states[state.svc_action], colors[COLOR_NORMAL]);
