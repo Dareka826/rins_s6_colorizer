@@ -80,8 +80,7 @@ int main() {
             if(token_idx == 0) { 
                 if(strcmp("s6-rc", token) == 0)
                     state.is_s6rc = TRUE;
-                else
-                    break;
+                else break;
 
             } else if(state.is_s6rc == TRUE) {
 
@@ -102,13 +101,13 @@ int main() {
                 } else if(token_idx == 4) {
                     if(strcmp("stopping\n", token) == 0)
                         state.svc_action = SVC_STOPPING;
-                    if(strcmp("starting\n", token) == 0)
+                    else if(strcmp("starting\n", token) == 0)
                         state.svc_action = SVC_STARTING;
 
                 } else if(token_idx == 5) {
                     if(strcmp("stopped\n", token) == 0)
                         state.svc_action = SVC_STOPPED;
-                    if(strcmp("started\n", token) == 0)
+                    else if(strcmp("started\n", token) == 0)
                         state.svc_action = SVC_STARTED;
                 }
             } // endif(is_s6rc == TRUE)
