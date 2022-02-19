@@ -12,6 +12,12 @@ typedef struct {
 
 } colorizer_state_t ;
 
-int reset_colorizer_state(colorizer_state_t *cs);
+void init_colorizer_state(colorizer_state_t * const cs);
+// Reset the information about a line
+void reset_colorizer_state(colorizer_state_t * const cs);
+// Parse line for colorizer_colorize_line()
+void colorizer_parse_line(const char * const line, colorizer_state_t * const cs);
+// Print the colorized line
+void colorizer_colorize_line(const char * const line, const colorizer_state_t * const cs);
 
 #endif
