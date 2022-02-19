@@ -18,8 +18,6 @@ s6-rc: info: service acpid-log: starting
 s6-rc: info: service rc-local successfully started
 s6-rc: info: service sysctl successfully started
 
+
 s6-rc: info: service dmesg-log: stopping
 s6-rc: info: service dmesg-log successfully stopped
-
-s6-linux-init-shutdownd: info: sending all processes the TERM signal...
-s6-linux-init-shutdownd: info: sending all processes the KILL signal...
