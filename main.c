@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include "utils.h"
 #include "colors.h"
 
 // "s6-rc" uses only stderr for its messages, so stdout should pass through
@@ -10,14 +11,6 @@
 // if executed as "s6-rc-color", start s6-rc with the passed in flags and
 // additionally -v2 for state change messages to be colorized
 // otherwise act as colorizer in a pipeline
-
-int min(int a, int b) { return a < b ? a : b; }
-
-// Simple booleans
-enum {
-    FALSE = 0,
-    TRUE = 1
-};
 
 // s6-rc message types
 enum {
