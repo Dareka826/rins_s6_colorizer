@@ -39,17 +39,18 @@ int main(int argc, char *argv[]) {
             dup2(pipe_fd[PIPE_WRITE], STDERR_FILENO); // Point stderr to pipe in
 
             char **new_argv = (char**) malloc(argc + 2); // Another arg + NULL
-            for(int i = 1; i < argc; i++)
-                new_argv[i] = argv[i];
+
+            for(int i = 1; i <= argc; i++) // Include NULL at the end
+                new_argv[i+1] = argv[i]; // Copy over offset by 1
+
+            // Add -v2 to argv
+            new_argv[1] = "-v2";
+
 #ifdef EXEC_DEBUG
             new_argv[0] = "./test.sh";
 #else
             new_argv[0] = "s6-rc";
 #endif
-            // Add -v2 to argv
-            new_argv[argc] = "-v2";
-            new_argv[argc+1] = NULL;
-
             execvp(new_argv[0], new_argv);
 
         } else {
