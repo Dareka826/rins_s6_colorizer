@@ -132,13 +132,13 @@ void colorizer_colorize_line(const char * const line, const colorizer_state_t * 
                 fprintf(stderr, "service ");
 
                 if(cs->svc_action == SVC_STARTING)
-                    fprintf(stderr, "%s %s%s%s...", cs->svc_name, _c[COL_GREEN], svc_states[cs->svc_action], _c[COL_NORMAL]);
+                    fprintf(stderr, "%s is %s%s%s...", cs->svc_name, _c[COL_GREEN], svc_states[cs->svc_action], _c[COL_NORMAL]);
                 else if(cs->svc_action == SVC_STARTED)
-                        fprintf(stderr, "%s [  %s%s%s  ]", cs->svc_name, _c[COL_GREEN], svc_states[cs->svc_action], _c[COL_NORMAL]);
+                        fprintf(stderr, "%s is [  %s%s%s  ]", cs->svc_name, _c[COL_GREEN], svc_states[cs->svc_action], _c[COL_NORMAL]);
                 else if(cs->svc_action == SVC_STOPPING)
-                        fprintf(stderr, "%s %s%s%s...", cs->svc_name, _c[COL_RED], svc_states[cs->svc_action], _c[COL_NORMAL]);
+                        fprintf(stderr, "%s is %s%s%s...", cs->svc_name, _c[COL_RED], svc_states[cs->svc_action], _c[COL_NORMAL]);
                 else if(cs->svc_action == SVC_STOPPED)
-                        fprintf(stderr, "%s [  %s%s%s  ]", cs->svc_name, _c[COL_RED], svc_states[cs->svc_action], _c[COL_NORMAL]);
+                        fprintf(stderr, "%s is [  %s%s%s  ]", cs->svc_name, _c[COL_RED], svc_states[cs->svc_action], _c[COL_NORMAL]);
                 else is_fully_parsed = FALSE;
 
             } else is_fully_parsed = FALSE;
