@@ -38,15 +38,18 @@ int main(int argc, char *argv[]) {
             close(pipe_fd[PIPE_READ]); // Close pipe out
             dup2(pipe_fd[PIPE_WRITE], STDERR_FILENO); // Point stderr to pipe in
 
+            char **new_argv = (char**) malloc(++argc + 1); // Another arg + NULL
+            for(int i = 1; i < argc; i++)
+                new_argv[i] = argv[i];
 #ifdef EXEC_DEBUG
-            argv[0] = "./test.sh";
+            new_argv[0] = "./test.sh";
 #else
-            argv[0] = "s6-rc";
-            // Add -v2 to argv
-            argv = (char**) realloc(argv, argc+2);
-            argv[argc] = "-v2";
-            argv[argc+1] = NULL;
+            new_argv[0] = "s6-rc";
 #endif
+            // Add -v2 to argv
+            new_argv[argc] = "-v2";
+            argv[argc+1] = NULL;
+
             execvp(argv[0], argv);
 
         } else {
