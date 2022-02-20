@@ -48,9 +48,9 @@ int main(int argc, char *argv[]) {
 #endif
             // Add -v2 to argv
             new_argv[argc] = "-v2";
-            argv[argc+1] = NULL;
+            new_argv[argc+1] = NULL;
 
-            execvp(argv[0], argv);
+            execvp(new_argv[0], new_argv);
 
         } else {
             // Parent
