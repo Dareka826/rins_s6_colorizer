@@ -42,6 +42,10 @@ int main(int argc, char *argv[]) {
             argv[0] = "./test.sh";
 #else
             argv[0] = "s6-rc";
+            // Add -v2 to argv
+            argv = (char**) realloc(argv, argc+2);
+            argv[argc] = "-v2";
+            argv[argc+1] = NULL;
 #endif
             execvp(argv[0], argv);
 
