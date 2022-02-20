@@ -2,3 +2,5 @@
 *.d
 *.o
 rins-s6-colorizer
+rins-s6-colorizer-debug
+s6-rc-color

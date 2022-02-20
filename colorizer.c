@@ -123,35 +123,35 @@ void colorizer_colorize_line(const char * const line, const colorizer_state_t * 
     bool_t is_fully_parsed = TRUE;
 
     if(cs->is_s6rc == TRUE) {
-        printf("%s%ss6-rc%s: ", _c[COL_BOLD], _c[COL_YELLOW], _c[COL_NORMAL]);
+        fprintf(stderr, "%s%ss6-rc%s: ", _c[COL_BOLD], _c[COL_YELLOW], _c[COL_NORMAL]);
 
         if(cs->msg_type == MSG_INFO) {
-            printf("info: ");
+            fprintf(stderr, "info: ");
 
             if(cs->is_svc == TRUE) {
-                printf("service ");
+                fprintf(stderr, "service ");
 
                 if(cs->svc_action == SVC_STARTING)
-                    printf("%s %s%s%s...", cs->svc_name, _c[COL_GREEN], svc_states[cs->svc_action], _c[COL_NORMAL]);
+                    fprintf(stderr, "%s %s%s%s...", cs->svc_name, _c[COL_GREEN], svc_states[cs->svc_action], _c[COL_NORMAL]);
                 else if(cs->svc_action == SVC_STARTED)
-                        printf("%s [  %s%s%s  ]", cs->svc_name, _c[COL_GREEN], svc_states[cs->svc_action], _c[COL_NORMAL]);
+                        fprintf(stderr, "%s [  %s%s%s  ]", cs->svc_name, _c[COL_GREEN], svc_states[cs->svc_action], _c[COL_NORMAL]);
                 else if(cs->svc_action == SVC_STOPPING)
-                        printf("%s %s%s%s...", cs->svc_name, _c[COL_RED], svc_states[cs->svc_action], _c[COL_NORMAL]);
+                        fprintf(stderr, "%s %s%s%s...", cs->svc_name, _c[COL_RED], svc_states[cs->svc_action], _c[COL_NORMAL]);
                 else if(cs->svc_action == SVC_STOPPED)
-                        printf("%s [  %s%s%s  ]", cs->svc_name, _c[COL_RED], svc_states[cs->svc_action], _c[COL_NORMAL]);
+                        fprintf(stderr, "%s [  %s%s%s  ]", cs->svc_name, _c[COL_RED], svc_states[cs->svc_action], _c[COL_NORMAL]);
                 else is_fully_parsed = FALSE;
 
             } else is_fully_parsed = FALSE;
 
         } else is_fully_parsed = FALSE;
 
-        putchar('\n');
+        putc('\n', stderr);
     }
 
     // If not s6-rc or not sure the program reflected all relevant information
     if(cs->is_s6rc == FALSE || is_fully_parsed == FALSE)
-        printf("%s", line);
+        fprintf(stderr, "%s", line);
 
     // Flush the stream with every new line for realtime updates
-    fflush(stdout);
+    fflush(stderr);
 }
