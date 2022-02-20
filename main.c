@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
 #else
             argv[0] = "s6-rc";
 #endif
-            execve(argv[0], argv, environ);
+            execvp(argv[0], argv);
 
         } else {
             // Parent
