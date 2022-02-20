@@ -1,4 +1,4 @@
 
-CFLAGS="-Wall -g"
-LDFLAGS="-g"
+CFLAGS="-Wall -O2"
+LDFLAGS=""
 
