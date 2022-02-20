@@ -10,5 +10,5 @@ Usage:
 - alternatively pass the output of "s6-rc" with the -v2 argument through the colorizer program (preferably with execline)
 
 TODO:
-[x] separate functionality into smaller functions
-[x] add wrapper functionality if run as "s6-rc-color"
+- [x] separate functionality into smaller functions
+- [x] add wrapper functionality if run as "s6-rc-color"
