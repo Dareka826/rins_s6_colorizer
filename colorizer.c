@@ -42,7 +42,7 @@ enum {
 
 // strings for s6-rc state change types
 const char * const svc_states[] = {
-    "???",
+    NULL,
     "starting",
     "stopping",
     "started",
